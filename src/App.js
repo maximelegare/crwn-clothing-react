@@ -1,34 +1,31 @@
 import React from "react";
 import { Route, Switch } from "react-router-dom";
+import { Component } from 'react'
+import { connect } from 'react-redux'
+import { setCurrentUser } from './redux/user/user.actions'
 
 import HomePage from "./pages/homepage/homePage.component";
 import ShopPage from "./pages/shop/shopPage.component"
 import Header from "./components/TheHeader/header.component"
 import SignInAndSignOut from './pages/sign-in-and-sign-out/sign-in-and-sign-out.component'
-import { auth } from './firebase/firebase.utils'
-import { Component } from 'react'
-import { createUserProfileDocument } from './firebase/firebase.utils'
+import { auth, createUserProfileDocument } from './firebase/firebase.utils'
 
 import "./App.css";
 
 class App extends Component{
-  constructor(){
-    super()
-    this.state = {
-      currentUser : null
-    }
-  }
+ 
 
   unsubscribeFromAuth = null;
 
   componentDidMount(){
     this.unsubscribeFromAuth = auth.onAuthStateChanged(async (userAuth) =>{
+      const { setUser } = this.props
       
       if(userAuth){
         const userRef = await createUserProfileDocument(userAuth);
 
         userRef.onSnapshot((snapshot) => {
-          this.setState({
+          setUser({
             currentUser:{
               id:snapshot.id,
               ...snapshot.data()
@@ -36,7 +33,7 @@ class App extends Component{
           })
         })
       }else{
-        this.setState({currentUser:userAuth})
+        setUser(userAuth)
       }
       
     })
@@ -49,7 +46,7 @@ class App extends Component{
   render(){
     return (
       <div>
-        <Header currentUser={this.state.currentUser}/>
+        <Header/>
         <Switch>
           <Route exact path="/signin" component={SignInAndSignOut} />
           <Route exact path="/" component={HomePage} />
@@ -61,5 +58,8 @@ class App extends Component{
 }
 
 
+const mapDispatchToProps = dispatch => ({
+  setUser: user => dispatch(setCurrentUser(user))
+});
 
-export default App;
+export default connect(null, mapDispatchToProps)(App)
