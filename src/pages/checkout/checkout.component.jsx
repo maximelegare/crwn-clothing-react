@@ -13,7 +13,7 @@ import CheckoutItem from '../../components/checkout/checkout-item/checkout-item.
 
         {
             cartItems.map(cartItem => (
-            <CheckoutItem cartItem={cartItem}/>))
+            <CheckoutItem key={cartItem.id} cartItem={cartItem}/>))
         }
         <div className="total">
             <span>TOTAL: ${total}</span>
