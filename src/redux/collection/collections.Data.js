@@ -1,4 +1,4 @@
-const COLLECTION_DATA = {
+const COLLECTIONS_DATA = {
   hats:{
     id: 1,
     title: 'Hats',
@@ -246,4 +246,4 @@ mens:  {
   }
 };
 
-export default COLLECTION_DATA;
+export default COLLECTIONS_DATA;

@@ -1,7 +1,7 @@
-import COLLECTION_DATA from './collections.Data' 
+import COLLECTIONS_DATA from './collections.Data' 
 
 const INITIAL_STATE = {
-    collectionData : COLLECTION_DATA
+    collectionsData : COLLECTIONS_DATA
 }
 
 const collectionReducer = (state = INITIAL_STATE, action) => {
