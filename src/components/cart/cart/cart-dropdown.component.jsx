@@ -6,11 +6,14 @@ import { selectCartItems } from "../../../redux/cart/cart.selectors";
 import { createStructuredSelector } from "reselect";
 import { withRouter } from "react-router-dom";
 
-import { toggleCartVisibility } from "../../../redux/cart/cart.actions";
+// import { toggleCartVisibility } from "../../../redux/cart/cart.actions";
+import { selectCurrentUser } from '../../../redux/user/users.selectors'
+
 
 import "./cart-dropdown.styles.scss";
+import { toggleCartVisibility } from "../../../redux/cart/cart.actions";
 
-const CartDropdown = ({ cartItems, history, dispatch }) => (
+const CartDropdown = ({ cartItems, history, dispatch, currentUser }) => (
   
     <div className="cart-dropdown">
       <div className={`${!cartItems.length ? "empty" : ""} cart-items`}>
@@ -23,10 +26,22 @@ const CartDropdown = ({ cartItems, history, dispatch }) => (
         )}
       </div>
       <CustomButton
-        onClick={() => {
-          history.push("/checkout");
-          dispatch(toggleCartVisibility());
-        }}
+        onClick={
+          () => {
+          //   currentUser ?
+          // history.push("/checkout")
+          // // dispatch(toggleCartVisibility())
+          // :
+          // history.push('/signin')
+          if(currentUser){
+            history.push('/checkout')
+          }else{
+            history.push('signin')
+          }
+          dispatch(toggleCartVisibility())
+        }
+      
+      }
       >
         GO TO CHECKOUT
       </CustomButton>
@@ -37,5 +52,6 @@ const CartDropdown = ({ cartItems, history, dispatch }) => (
 
 const mapStateToProps = createStructuredSelector({
   cartItems: selectCartItems,
+  currentUser:selectCurrentUser
 });
 export default withRouter(connect(mapStateToProps)(CartDropdown));
