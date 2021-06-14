@@ -22,27 +22,44 @@ export const createUserProfileDocument = async (userAuth, additionalData) => {
     let { displayName, email } = userAuth;
 
     const createdAt = new Date();
-    
-      const dataObject = {  
-        email,
-        createdAt,
-        ...additionalData,
-      };
-    
+
+    const dataObject = {
+      email,
+      createdAt,
+      ...additionalData,
+    };
 
     try {
-        // checks if displayName is null. if it is, it won't send it. Meaning that in additionalData, there is a displayName.
-        if(displayName){
-            await userRef.set(dataObject, displayName);
-        }else{
-            await userRef.set(dataObject);  
-        }
-
+      // checks if displayName is null. if it is, it won't send it. Meaning that in additionalData, there is a displayName.
+      if (displayName) {
+        await userRef.set(dataObject, displayName);
+      } else {
+        await userRef.set(dataObject);
+      }
     } catch (err) {
       console.log("Something went wrong!", err.message);
     }
   }
   return userRef;
+};
+
+export const convertCollectionsSnapshotToMap = (collections) => {
+  const transformedCollection = collections.docs.map((doc) => {
+    const { title, items } = doc.data();
+
+    return {
+      routeName: encodeURI(title.toLowerCase()),
+      id: doc.id,
+      title,
+      items,
+    };
+  });
+  console.log(transformedCollection);
+
+  return transformedCollection.reduce((acc, collection) => {
+    // acc[collection.title.toLowerCase()] = collection;
+    return {...acc, [collection.title.toLowerCase()] : collection}
+  }, {});
 };
 
 firebase.initializeApp(config);

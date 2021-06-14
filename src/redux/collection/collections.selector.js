@@ -25,5 +25,6 @@ export const selectCollection = memoize((collectionUrlParam) =>
 
 // create array with the collections object to render in Collection Overview using .map()
 export const selectCollectionsForPreview = createSelector([selectCollectionsData],
-  (collections) => Object.keys(collections).map(key => collections[key])
+  (collections) => collections ? Object.keys(collections).map(key => collections[key]) : []
+
   )
