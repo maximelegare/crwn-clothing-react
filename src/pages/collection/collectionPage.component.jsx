@@ -5,7 +5,7 @@ import CollectionItem from "../../components/collections/collection-item/collect
 
 const CollectionPage = ({ collection }) => {
   const { title, items } = collection;
-  console.log(collection);
+  
   return (
     <div className="collection-page">
       <h2 className="title">{title.toUpperCase()}</h2>

@@ -17,9 +17,7 @@ export const selectCollectionsData = createSelector(
 export const selectCollection = memoize((collectionUrlParam) =>
   createSelector(
     [selectCollectionsData],
-    (collectionsData) => { 
-        console.log(collectionsData)
-        return collectionsData[collectionUrlParam]}
+    (collectionsData) => collectionsData ? collectionsData[collectionUrlParam] : null
   )
 );
 
