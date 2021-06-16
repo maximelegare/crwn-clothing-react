@@ -4,9 +4,9 @@ import CollectionPageContainer from "../collection/collectionPage.container";
 import { Component } from "react";
 import { createStructuredSelector } from "reselect";
 
-import { selectIsCollectionFetching } from "../../redux/collection/collections.selector";
+import { selectIsCollectionFetching } from "../../redux/collections/collections.selector";
 
-import { fetchCollectionStartAsync } from "../../redux/collection/collection.actions";
+import { fetchCollectionStartAsync } from "../../redux/collections/collections.actions";
 
 // import WithSpinner from "../../components/with-spinner/with-spinner.component";
 

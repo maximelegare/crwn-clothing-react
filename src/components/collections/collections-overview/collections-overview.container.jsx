@@ -1,5 +1,5 @@
 import { createStructuredSelector } from "reselect";
-import { selectIsCollectionFetching } from "../../../redux/collection/collections.selector";
+import { selectIsCollectionFetching } from "../../../redux/collections/collections.selector";
 import { connect } from "react-redux";
 // import { compose } from "redux";
 // import {Route} from 'react-router-dom'

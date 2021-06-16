@@ -10,7 +10,7 @@ import directoryReducer from './directory/directory.reducer'
 
 
 
-import collectionReducer from './collection/collection.reducer'
+import collectionReducer from './collections/collections.reducer'
 
 
 const persistConfig = {
