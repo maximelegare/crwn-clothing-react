@@ -1,6 +1,6 @@
-import CollectionsOverview from "../../components/collections/collections-overview/collections-overview.component";
+import CollectionsOverviewContainer from "../../components/collections/collections-overview/collections-overview.container"
 import { Route } from "react-router-dom";
-import CollectionPage from "../collection/collectionPage.component";
+import CollectionPageContainer from "../collection/collectionPage.container";
 import { Component } from "react";
 import { createStructuredSelector } from "reselect";
 
@@ -8,7 +8,7 @@ import { selectIsCollectionFetching } from "../../redux/collection/collections.s
 
 import { fetchCollectionStartAsync } from "../../redux/collection/collection.actions";
 
-import WithSpinner from "../../components/with-spinner/with-spinner.component";
+// import WithSpinner from "../../components/with-spinner/with-spinner.component";
 
 import { connect } from "react-redux";
 
@@ -16,30 +16,26 @@ class ShopPage extends Component {
 
   componentDidMount() {
     const { fetchCollectionStartAsync } = this.props
-    console.log('component mounted')
+    
     fetchCollectionStartAsync()
   }
 
   render() {
-    const CollectionOverviewWithSpinner = WithSpinner(CollectionsOverview);
-    const CollectionPageWithSpinner = WithSpinner(CollectionPage);
+    // const CollectionOverviewWithSpinner = WithSpinner(CollectionsOverview);
+    // const CollectionPageWithSpinner = WithSpinner(CollectionPage);
 
     
-    const { match, isCollectionFetching } = this.props;
+    const { match } = this.props;
     return (
       <div className="shop-page">
         <Route
           exact
           path={`${match.path}`}
-          render={(props) => (
-            <CollectionOverviewWithSpinner isLoading={isCollectionFetching} {...props} />
-          )}
+          component={CollectionsOverviewContainer}
         />
         <Route
           path={`${match.path}/:collectionId`}
-          render={(props) => (
-            <CollectionPageWithSpinner isLoading={isCollectionFetching} {...props} />
-          )}
+          component={CollectionPageContainer}
         />
       </div>
     );
