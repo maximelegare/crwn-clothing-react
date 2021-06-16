@@ -1,20 +1,17 @@
-import { CollectionActonsTypes } from "./collections.types";
-import {
-  firestore,
-  convertCollectionsSnapshotToMap,
-} from "../../firebase/firebase.utils";
+import { CollectionsActionsTypes } from "./collections.types";
+
 
 export const fetchCollectionsStart = () => ({
-  type: CollectionActonsTypes.FETCH_COLLECTIONS_START,
+  type: CollectionsActionsTypes.FETCH_COLLECTIONS_START,
 });
 
 export const fetchCollectonsSuccess = collectionsMap => ({
-    type:CollectionActonsTypes.FETCH_COLLECTIONS_SUCCESS,
+    type:CollectionsActionsTypes.FETCH_COLLECTIONS_SUCCESS,
     payload:collectionsMap
 })
 
 export const fetchCollectionError = errorMessage => ({
-    type:CollectionActonsTypes.FETCH_COLLECTIONS_ERROR,
+    type:CollectionsActionsTypes.FETCH_COLLECTIONS_ERROR,
     payload:errorMessage
 })
 
@@ -22,22 +19,6 @@ export const fetchCollectionError = errorMessage => ({
 // it uses redux thunk. I can dispatch multiple actions at different moment using it.
 export const fetchCollectionsStartAsync = () => {
   return (dispatch) => {
-    const collectionRef = firestore.collection("collections");
-    
-    
-    // dispatch beginning of fetching  
-    dispatch(fetchCollectionsStart());
-
-    // gets everything in the collections
-    collectionRef.get().then((snapshot) => {
-    // transforms in an object (firebase.utils.js) 
-        
-
-    const objectMap = convertCollectionsSnapshotToMap(snapshot);
-
-    // success or error dispatch
-
-    dispatch(fetchCollectonsSuccess(objectMap))
-    }).catch(err => dispatch(fetchCollectionError(err.message)))
+  
   };
 };

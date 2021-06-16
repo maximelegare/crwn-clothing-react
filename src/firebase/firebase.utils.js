@@ -54,10 +54,8 @@ export const convertCollectionsSnapshotToMap = (collections) => {
       items,
     };
   });
-  console.log(transformedCollection);
 
   return transformedCollection.reduce((acc, collection) => {
-    // acc[collection.title.toLowerCase()] = collection;
     return {...acc, [collection.title.toLowerCase()] : collection}
   }, {});
 };
@@ -68,7 +66,6 @@ export const auth = firebase.auth();
 export const firestore = firebase.firestore();
 
 const provider = new firebase.auth.GoogleAuthProvider();
-// provider.setCustomParameters({prompt: 'select_account'});
 export const signInWithGoogle = () => auth.signInWithRedirect(provider);
 
 export default firebase;
