@@ -4,9 +4,9 @@ import {
   convertCollectionsSnapshotToMap,
 } from "../../firebase/firebase.utils";
 
-// export const fetchCollectionStart = () => ({
-//   type: CollectionActonsTypes.FETCH_COLLECTIONS_START,
-// });
+export const fetchCollectionsStart = () => ({
+  type: CollectionActonsTypes.FETCH_COLLECTIONS_START,
+});
 
 export const fetchCollectonsSuccess = collectionsMap => ({
     type:CollectionActonsTypes.FETCH_COLLECTIONS_SUCCESS,
@@ -20,13 +20,13 @@ export const fetchCollectionError = errorMessage => ({
 
 
 // it uses redux thunk. I can dispatch multiple actions at different moment using it.
-export const fetchCollectionStartAsync = () => {
+export const fetchCollectionsStartAsync = () => {
   return (dispatch) => {
     const collectionRef = firestore.collection("collections");
     
     
     // dispatch beginning of fetching  
-    // dispatch(fetchCollectionStart());
+    dispatch(fetchCollectionsStart());
 
     // gets everything in the collections
     collectionRef.get().then((snapshot) => {
