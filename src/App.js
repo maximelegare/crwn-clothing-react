@@ -10,10 +10,10 @@ import Header from "./components/TheHeader/header.component";
 import SignInAndSignOut from "./pages/sign-in-and-sign-out/sign-in-and-sign-out.component";
 import CheckoutPage from "./pages/checkout/checkout.component";
 
-import {
-  auth,
-  createUserProfileDocument,
-} from "./firebase/firebase.utils";
+// import {
+//   auth,
+//   createUserProfileDocument,
+// } from "./firebase/firebase.utils";
 
 
 
@@ -26,24 +26,24 @@ class App extends Component {
   unsubscribeFromAuth = null;
 
   componentDidMount() {
-    const { setUser } = this.props;
+    // const { setUser } = this.props;
     
 
-    this.unsubscribeFromAuth = auth.onAuthStateChanged(async (userAuth) => {
-      if (userAuth) {
-        const userRef = await createUserProfileDocument(userAuth);
+    // this.unsubscribeFromAuth = auth.onAuthStateChanged(async (userAuth) => {
+    //   if (userAuth) {
+    //     const userRef = await createUserProfileDocument(userAuth);
 
-        userRef.onSnapshot((snapshot) => {
-          setUser({
-            currentUser: {
-              id: snapshot.id,
-              ...snapshot.data(),
-            },
-          });
-        });
-      }
-      setUser(userAuth);
-    });
+    //     userRef.onSnapshot((snapshot) => {
+    //       setUser({
+    //         currentUser: {
+    //           id: snapshot.id,
+    //           ...snapshot.data(),
+    //         },
+    //       });
+    //     });
+    //   }
+    //   setUser(userAuth);
+    // });
   }
 
   componentWillUnmount() {
