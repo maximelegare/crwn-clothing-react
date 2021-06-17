@@ -13,12 +13,19 @@ import {
   
 } from "./user.actions";
 
-// google sign in sagas
+
 export function* onGoogleSignInStart() {
   yield takeLatest(UserActionTypes.GOOGLE_SIGN_IN_START, signInWithGoogle);
 }
 
+export function* onSignInWithEmailAndPasswordStart() {
+  yield takeLatest(
+    UserActionTypes.EMAIL_SIGN_IN_START,
+    signInWithEmailAndPassword
+  );
+}
 
+// get snapshot from firebase.utils
 export function* getSnapshotFromUserAuth(user){
   try {
     const userRef = yield call(createUserProfileDocument, user);
@@ -31,9 +38,7 @@ export function* getSnapshotFromUserAuth(user){
   }
 }
 
-
-
-
+// sign in with google
 export function* signInWithGoogle() {
   try {
     const { user } = yield auth.signInWithPopup(googleProvider);
@@ -43,14 +48,7 @@ export function* signInWithGoogle() {
   }
 }
 
-// email and password sagas
-export function* onSignInWithEmailAndPasswordStart() {
-  yield takeLatest(
-    UserActionTypes.EMAIL_SIGN_IN_START,
-    signInWithEmailAndPassword
-  );
-}
-
+// sign in email and password 
 export function* signInWithEmailAndPassword({ payload: { email, password } }) {
   console.log(`email: ${email}, password: ${password}` )
   try {
@@ -60,6 +58,7 @@ export function* signInWithEmailAndPassword({ payload: { email, password } }) {
     yield put(signInError(err));
   }
 }
+
 
 export function* userSagas() {
   yield all([call(onGoogleSignInStart), call(onSignInWithEmailAndPasswordStart)]);
