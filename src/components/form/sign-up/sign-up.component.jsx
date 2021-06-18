@@ -3,7 +3,11 @@ import { Component } from "react";
 import FormInput from "../form-input/form-input.component";
 import CustomButton from '../../custom-button/custom-button.component'
 
-import {auth, createUserProfileDocument} from "../../../firebase/firebase.utils";
+import { connect } from 'react-redux'
+import { signUpStart } from '../../../redux/user/user.actions'
+
+
+// import {auth, createUserProfileDocument} from "../../../firebase/firebase.utils";
 
 class SignUp extends Component {
   constructor() {
@@ -15,34 +19,19 @@ class SignUp extends Component {
       confirmPassword: "",
     };
   }
-  submitForm = async (e) => {
+  submitForm = (e) => {
     e.preventDefault()
     const {displayName, email, password, confirmPassword} = this.state
-    
+    const { signUpStart } = this.props
+    // console.log('submit')
+    // signUpStart({email, password,})
+
+
     if(password !== confirmPassword ){
         alert("passwords don't match")
         return;
     }
-
-    try{
-        console.log(displayName)
-        const {user} = await auth.createUserWithEmailAndPassword(email, password)
-        // console.log(user)
-        // displayName is in an object because createUserProfileDocument takes on param and the others are ...spread. it needs to be in an object to add it.
-        await createUserProfileDocument(user, {displayName:displayName})
-        
-
-        this.setState({
-            displayName: "",
-            email: "",
-            password: "",
-            confirmPassword: "",
-          })
-
-
-    }catch(err){
-        console.error(err)
-    }
+    signUpStart({displayName, email, password})
 
 }
 
@@ -98,4 +87,9 @@ class SignUp extends Component {
     ) 
   }
 }
-export default SignUp
+
+const mapDispatchToProps = (dispatch) => ({
+  signUpStart: (userInfos) => dispatch(signUpStart(userInfos))
+}) 
+
+export default connect(null, mapDispatchToProps)(SignUp)

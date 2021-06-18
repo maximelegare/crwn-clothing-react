@@ -13,6 +13,8 @@ import {
   signInError,
   signOutError,
   signOutSucess,
+  signUpSuccess,
+  signUpError
 } from "./user.actions";
 
 export function* onGoogleSignInStart() {
@@ -27,9 +29,9 @@ export function* onSignInWithEmailAndPasswordStart() {
 }
 
 // get snapshot from firebase.utils
-export function* getSnapshotFromUserAuth(user) {
+export function* getSnapshotFromUserAuth(user, displayName) {
   try {
-    const userRef = yield call(createUserProfileDocument, user);
+    const userRef = yield call(createUserProfileDocument, user, {displayName:displayName});
     const userSnapshot = yield userRef.get();
     yield put(signInSuccess({ id: userSnapshot.id, ...userSnapshot.data() }));
   } catch (err) {
@@ -72,6 +74,27 @@ export function* signOut() {
   }
 }
 
+// user Sign up
+export function* onSignUpStart(){
+  yield takeLatest(UserActionTypes.SIGN_UP_START, signUp)
+  yield console.log('onSignUpStart')
+}
+
+export function* signUp({payload:{email, password, displayName}}){
+  try{
+    const {user} = yield  auth.createUserWithEmailAndPassword(email, password)
+    yield put(signUpSuccess(user))
+    
+    yield getSnapshotFromUserAuth(user, displayName)
+
+  }catch(err){
+    yield put(signUpError(err))
+  }
+
+}
+
+
+
 // checks if a user is authenticated, which create session persistance.
 export function* onCheckUserSession() {
   yield takeLatest(UserActionTypes.CHECK_USER_SESSION, isUserAuthenticated);
@@ -87,11 +110,16 @@ export function* isUserAuthenticated() {
   }
 }
 
+
+
+
+
 export function* userSagas() {
   yield all([
     call(onGoogleSignInStart),
     call(onSignInWithEmailAndPasswordStart),
     call(onCheckUserSession),
-    call(onSignOutStart)
+    call(onSignOutStart),
+    call(onSignUpStart)
   ]);
 }
