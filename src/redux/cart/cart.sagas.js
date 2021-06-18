@@ -4,10 +4,10 @@ import  UserActionTypes  from '../user/user.types'
 import { clearCart } from '../cart/cart.actions'
 
 export function* onSignOutSuccess(){
-    yield takeLatest(UserActionTypes.SIGN_OUT_SUCCESS, clearCartOnSignOUt)
+    yield takeLatest(UserActionTypes.SIGN_OUT_SUCCESS, clearCartOnSignOut)
 }
 
-export function* clearCartOnSignOUt(){
+export function* clearCartOnSignOut(){
     yield put(clearCart())
 }
 

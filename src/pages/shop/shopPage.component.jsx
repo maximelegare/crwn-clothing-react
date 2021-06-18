@@ -1,9 +1,8 @@
 import CollectionsOverviewContainer from "../../components/collections/collections-overview/collections-overview.container"
 import { Route } from "react-router-dom";
 import CollectionPageContainer from "../collection/collectionPage.container";
-import { Component } from "react";
 import { createStructuredSelector } from "reselect";
-
+import { useEffect } from "react";
 import { selectIsCollectionFetching } from "../../redux/collections/collections.selector";
 
 import { fetchCollectionsStart } from "../../redux/collections/collections.actions";
@@ -12,20 +11,12 @@ import { fetchCollectionsStart } from "../../redux/collections/collections.actio
 
 import { connect } from "react-redux";
 
-class ShopPage extends Component {
+const ShopPage = ({fetchCollectionsStart, match}) => {
 
-  componentDidMount() {
-    const { fetchCollectionsStart } = this.props
-    
-    fetchCollectionsStart()
-  }
+useEffect(() => {
+  fetchCollectionsStart()
+},[fetchCollectionsStart])  
 
-  render() {
-    // const CollectionOverviewWithSpinner = WithSpinner(CollectionsOverview);
-    // const CollectionPageWithSpinner = WithSpinner(CollectionPage);
-
-    
-    const { match } = this.props;
     return (
       <div className="shop-page">
         <Route
@@ -40,7 +31,7 @@ class ShopPage extends Component {
       </div>
     );
   }
-}
+
 const mapStateToProps = createStructuredSelector({
   isCollectionFetching: selectIsCollectionFetching,
 });
