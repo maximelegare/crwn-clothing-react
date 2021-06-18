@@ -9,13 +9,16 @@ export const addCartItem = (item) => ({
 })
 
 export const clearCartItem = (item) => ({
-    type:cartActionTypes.CLEAR_CART_ITEM,
+    type:cartActionTypes.CLEAR_ITEM_FROM_CART,
     payload:item   
 })
 
 export const deleteCartItem = (item) => ({
-    type:cartActionTypes.DELETE_CART_ITEM,
+    type:cartActionTypes.DELETE_ITEM,
     payload:item
 })
 
+export const clearCart = () => ({
+    type:cartActionTypes.CLEAR_CART
+})
 

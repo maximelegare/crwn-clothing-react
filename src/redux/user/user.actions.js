@@ -24,6 +24,19 @@ export const signInError = (err) => ({
     payload:err
 })
 
+export const signOutStart = () => ({
+    type:UserActionTypes.SIGN_OUT_START
+})
+
+export const signOutSucess = () => ({
+    type:UserActionTypes.SIGN_OUT_SUCCESS
+})
+
+export const signOutError = (err) => ({
+    type:UserActionTypes.SIGN_OUT_ERROR,
+    payload:err
+})
+
 
 
 

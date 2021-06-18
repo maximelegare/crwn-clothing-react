@@ -8,7 +8,12 @@ import {
   getCurrentUser,
 } from "../../firebase/firebase.utils";
 
-import { signInSuccess, signInError } from "./user.actions";
+import {
+  signInSuccess,
+  signInError,
+  signOutError,
+  signOutSucess,
+} from "./user.actions";
 
 export function* onGoogleSignInStart() {
   yield takeLatest(UserActionTypes.GOOGLE_SIGN_IN_START, signInWithGoogle);
@@ -53,6 +58,21 @@ export function* signInWithEmailAndPassword({ payload: { email, password } }) {
   }
 }
 
+// user sign out
+export function* onSignOutStart() {
+  yield takeLatest(UserActionTypes.SIGN_OUT_START, signOut);
+}
+
+export function* signOut() {
+  try {
+    yield auth.signOut();
+    yield put(signOutSucess());
+  } catch (err) {
+    yield put(signOutError(err));
+  }
+}
+
+// checks if a user is authenticated, which create session persistance.
 export function* onCheckUserSession() {
   yield takeLatest(UserActionTypes.CHECK_USER_SESSION, isUserAuthenticated);
 }
@@ -71,6 +91,7 @@ export function* userSagas() {
   yield all([
     call(onGoogleSignInStart),
     call(onSignInWithEmailAndPasswordStart),
-    call(isUserAuthenticated),
+    call(onCheckUserSession),
+    call(onSignOutStart)
   ]);
 }

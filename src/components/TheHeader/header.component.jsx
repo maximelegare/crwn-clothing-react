@@ -10,12 +10,11 @@ import { selectCartVisibility } from '../../redux/cart/cart.selectors'
 
 import { connect } from 'react-redux'
 
-import {auth} from '../../firebase/firebase.utils'
 import { createStructuredSelector } from 'reselect'
 
-
-
-const Header = ({currentUser, cartVisibility}) => (
+import {signOutStart} from '../../redux/user/user.actions'
+ 
+const Header = ({currentUser, cartVisibility, signOutStart}) => (
   <HeaderContainer>
     <LogoContainer to="/">
       <Logo className="logo"></Logo>
@@ -31,7 +30,7 @@ const Header = ({currentUser, cartVisibility}) => (
         // console.log(currentUser)
         currentUser
         ?
-        <OptionDiv onClick={() =>auth.signOut()}>SIGN-OUT</OptionDiv>
+        <OptionDiv onClick={signOutStart}>SIGN-OUT</OptionDiv>
         :
         <OptionLink to="/signin">SIGN-IN</OptionLink>
       }
@@ -51,6 +50,9 @@ const mapStateToProps = createStructuredSelector ({
   cartVisibility: selectCartVisibility
 })
 
+const mapDispatchToProps = (dispatch) => ({
+  signOutStart: () => dispatch(signOutStart())
+})
 
 
-export default connect(mapStateToProps)(Header);
+export default connect(mapStateToProps, mapDispatchToProps)(Header);
